@@ -23,9 +23,9 @@ class ConfigDataBaseHandler(val context: Context) :
             "CREATE TABLE IF NOT EXISTS $TABLE_TYRE_DETECTION($COL_ID INTEGER PRIMARY KEY AUTOINCREMENT  ,$COL_VIN_NUMBER TEXT,$COL_MAC_ADDRESS TEXT ,$COL_TYRE_POSITION TEXT, $COL_SENSOR_DATA_TD TEXT,$COL_DATE_TIMESTAMP TEXT,$COL_LAST_LOW_PRESSURE_TD TEXT,$COL_LAST_HIGH_PRESSURE_TD TEXT,$COL_LAST_HIGH_TEMPRATURE_TD TEXT,$COL_DATA_TYPE_TD INTEGER )"
         db?.execSQL(tyreDetectionTable)
         db?.execSQL("CREATE UNIQUE INDEX  IF NOT EXISTS index_detection_mac_address ON $TABLE_TYRE_DETECTION ($COL_MAC_ADDRESS)")
-        val table_alert =
+        val alertsTable =
             "CREATE TABLE  IF NOT EXISTS $TABLE_ALERTS ($COL_ID INTEGER PRIMARY KEY AUTOINCREMENT, $COL_MAC_ADDRESS TEXT, $COL_VIN_NUMBER TEXT,$COL_TYRE_POSITION TEXT,$COL_ALERT_TYPE_AT INTEGER,$COL_TIMAESTAMP_AT TEXT,$COL_ISVIEWED_AT INTEGER,$COL_ALERT_MESSAGE_AT TEXT,$COL_UPDATE_TIMESTAMP_AT TEXT)"
-        db?.execSQL(table_alert)
+        db?.execSQL(alertsTable)
         db?.execSQL("CREATE UNIQUE INDEX  IF NOT EXISTS index_tyre_position_mac_address_timeStamp ON $TABLE_ALERTS ($COL_ALERT_TYPE_AT, $COL_MAC_ADDRESS, $COL_TIMAESTAMP_AT)")
 
         val tpmsHistory =
@@ -43,10 +43,10 @@ class ConfigDataBaseHandler(val context: Context) :
         contentValues.put(COL_VIN_NUMBER, vehicleConfiguration.vinNumber)
         contentValues.put(COL_MAC_ADDRESS, vehicleConfiguration.macAddress)
         contentValues.put(COL_TYRE_POSITION, vehicleConfiguration.tyrePosition)
-        contentValues.put(COL_REC_PRESSURE, vehicleConfiguration.recommendedPressure)
-        contentValues.put(COL_LOW_PRESSURE, vehicleConfiguration.lowPressure)
-        contentValues.put(COL_HIGH_PRESSURE, vehicleConfiguration.highPressure)
-        contentValues.put(COL_HIGH_TEMPRATURE, vehicleConfiguration.highTemperature)
+        contentValues.put(COL_REC_PRESSURE, vehicleConfiguration.recommendedPressureSetPoint)
+        contentValues.put(COL_LOW_PRESSURE, vehicleConfiguration.lowPressureSetPoint )
+        contentValues.put(COL_HIGH_PRESSURE, vehicleConfiguration.highPressureSetPoint )
+        contentValues.put(COL_HIGH_TEMPRATURE, vehicleConfiguration.highTemperatureSetPoint )
         val id = db.insertWithOnConflict(
             TABLE_VEHICLE_CONFIGURATION,
             null,
@@ -72,7 +72,7 @@ class ConfigDataBaseHandler(val context: Context) :
 
         val query = "SELECT * FROM $TABLE_VEHICLE_CONFIGURATION"
         val db = this.readableDatabase
-        var cursor: Cursor? = null
+        val cursor: Cursor?
 
         try {
             cursor = db.rawQuery(query, null)
@@ -89,13 +89,13 @@ class ConfigDataBaseHandler(val context: Context) :
                     cursor.getString(cursor.getColumnIndex(COL_MAC_ADDRESS))
                 vehicleConfiguration.tyrePosition =
                     cursor.getString(cursor.getColumnIndex(COL_TYRE_POSITION))
-                vehicleConfiguration.recommendedPressure =
+                vehicleConfiguration.recommendedPressureSetPoint =
                     cursor.getInt(cursor.getColumnIndex(COL_REC_PRESSURE))
-                vehicleConfiguration.lowPressure =
+                vehicleConfiguration.lowPressureSetPoint  =
                     cursor.getInt(cursor.getColumnIndex(COL_LOW_PRESSURE))
-                vehicleConfiguration.highPressure =
+                vehicleConfiguration.highPressureSetPoint  =
                     cursor.getInt(cursor.getColumnIndex(COL_HIGH_PRESSURE))
-                vehicleConfiguration.highTemperature =
+                vehicleConfiguration.highTemperatureSetPoint  =
                     cursor.getInt(cursor.getColumnIndex(COL_HIGH_TEMPRATURE))
                 vehicleConfigurations.add(vehicleConfiguration)
             } while (cursor.moveToNext())
@@ -126,13 +126,13 @@ class ConfigDataBaseHandler(val context: Context) :
                     cursor.getString(cursor.getColumnIndex(COL_MAC_ADDRESS))
                 vehicleConfiguration.tyrePosition =
                     cursor.getString(cursor.getColumnIndex(COL_TYRE_POSITION))
-                vehicleConfiguration.recommendedPressure =
+                vehicleConfiguration.recommendedPressureSetPoint =
                     cursor.getInt(cursor.getColumnIndex(COL_REC_PRESSURE))
-                vehicleConfiguration.lowPressure =
+                vehicleConfiguration.lowPressureSetPoint  =
                     cursor.getInt(cursor.getColumnIndex(COL_LOW_PRESSURE))
-                vehicleConfiguration.highPressure =
+                vehicleConfiguration.highPressureSetPoint  =
                     cursor.getInt(cursor.getColumnIndex(COL_HIGH_PRESSURE))
-                vehicleConfiguration.highTemperature =
+                vehicleConfiguration.highTemperatureSetPoint  =
                     cursor.getInt(cursor.getColumnIndex(COL_HIGH_TEMPRATURE))
             }
         }
@@ -277,7 +277,7 @@ class ConfigDataBaseHandler(val context: Context) :
         }
         if (cursor.moveToFirst()) {
             do {
-                var tyreDetectionEvent = TyreDetectionEvent()
+                val tyreDetectionEvent = TyreDetectionEvent()
                 tyreDetectionEvent.vinNumber =
                     cursor.getString(cursor.getColumnIndex(COL_VIN_NUMBER))
                 tyreDetectionEvent.macAddress =
@@ -317,7 +317,7 @@ class ConfigDataBaseHandler(val context: Context) :
         }
         if (cursor.moveToFirst()) {
             do {
-                var tyreDetectionEvent = TyreDetectionEvent()
+                val tyreDetectionEvent = TyreDetectionEvent()
                 tyreDetectionEvent.vinNumber =
                     cursor.getString(cursor.getColumnIndex(COL_VIN_NUMBER))
                 tyreDetectionEvent.macAddress =

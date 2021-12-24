@@ -39,7 +39,7 @@ class MainActivity : BaseActivity(), EventCallbackListener, View.OnClickListener
 
         tagScan = TreelTagScan(this@MainActivity)
         // tagScan.create(this)
-        tagScan?.startScan(this)
+        tagScan?.startBleScanning(this)
         tagScan?.addOnEventCallbackListener(this)
 
         binding.buttonFetchTpmsData.setOnClickListener(this)
@@ -55,21 +55,21 @@ class MainActivity : BaseActivity(), EventCallbackListener, View.OnClickListener
                 showErrorMsg(response)
             }
             binding.buttonFetchTpmsData -> {
-                val tpmsDatas = tagScan?.fetchLatestTpmsData("VINNUMBER1")
-                showTpmsDataOnTable(tpmsDatas)
+                val latestTpmsDatas = tagScan?.fetchLatestTpmsData("VINNUMBER1")
+                showTpmsDataOnTable(latestTpmsDatas)
             }
             binding.buttonFetchAllVinNumberTpmsData -> {
                 val vinNumber = arrayOf("VINNUMBER1", "VINNUMBER2")
-                val tpmsDatas = tagScan?.fetchLatestTpmsData(vinNumber)
-                showTpmsDataOnTable(tpmsDatas)
+                val latestTpmsDatas = tagScan?.fetchLatestTpmsData(vinNumber)
+                showTpmsDataOnTable(latestTpmsDatas)
             }
         }
     }
 
-    private fun showTpmsDataOnTable(tpmsDatas: List<TpmsDetectionData>?) {
+    private fun showTpmsDataOnTable(latestTpmsDatas: List<TpmsDetectionData>?) {
         layoutTpmsData.visibility = View.VISIBLE
         recyclerViewScanData.layoutManager = LinearLayoutManager(this)
-        adapter = TpmsDataAdapter(tpmsDatas?.toList() ?: emptyList())
+        adapter = TpmsDataAdapter(latestTpmsDatas?.toList() ?: emptyList())
         recyclerViewScanData.adapter = adapter
         adapter?.notifyDataSetChanged()
     }
@@ -144,12 +144,17 @@ class MainActivity : BaseActivity(), EventCallbackListener, View.OnClickListener
                 }
             })
     }
-
+    /**
+     * callback to Realtime TPMS data received
+     */
     override fun onTpmsDataReceived(vehicleConfiguration: VehicleConfiguration) {
         Timber.d("Configuration Received", vehicleConfiguration)
 
     }
 
+    /**
+     * Firing notification
+     */
     override fun showAlertNotification(alertNotification: AlertNotification) {
         Timber.d("alertNotification Received")
         NotificationBuilder.newInstance(this).sendNotification(alertNotification)

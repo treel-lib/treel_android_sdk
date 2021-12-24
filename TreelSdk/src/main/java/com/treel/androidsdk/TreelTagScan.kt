@@ -1,7 +1,6 @@
 package com.treel.androidsdk
 
 import android.content.Context
-import android.util.Log
 import com.logicare.treel.ui.viewVehicle.ble.VehicleReadingParser
 import com.polidea.rxandroidble2.RxBleClient
 import com.polidea.rxandroidble2.exceptions.BleScanException
@@ -56,14 +55,14 @@ class TreelTagScan(context: Context) {
     }
 
 
-    fun getBleClient(context: Context): RxBleClient? {
+    private fun getBleClient(context: Context): RxBleClient? {
         if (rxBleClient == null) {
             rxBleClient = RxBleClient.create(context)
         }
         return rxBleClient
     }
 
-    fun startScan(context: Context) {
+    fun startBleScanning(context: Context) {
         getBleClient(context)
         if(database?.getVehicleConfigure()?.size ==0){
             eventCallbackListener?.handleBleException(SCAN_FAILED_CONFIGURATION_NOT_AVAILABLE)
@@ -97,7 +96,7 @@ class TreelTagScan(context: Context) {
     }
 
     private fun handleScanResponse(scanResult: ScanResult) {
-        Log.d("Sensor Detected:", " ${scanResult.bleDevice.macAddress}")
+        Timber.d("Sensor Detected: " + scanResult.bleDevice.macAddress)
         val beacon = ConversionUtils.getTreelBeacon(scanResult.scanRecord.bytes)
         when {
             beacon != null -> {
@@ -176,9 +175,9 @@ class TreelTagScan(context: Context) {
         tagConfiguration.lowPressure = configuration.lowPressure
         tagConfiguration.highTemperature = configuration.highTemperature*/
 
-        val lowPressureSP: Int = tagConfiguration.lowPressure!!
-        val highPressureSP: Int = tagConfiguration.highPressure!!
-        val highTemperatureSP: Int = tagConfiguration.highTemperature!!
+        val lowPressureSP: Int = tagConfiguration.lowPressureSetPoint !!
+        val highPressureSP: Int = tagConfiguration.highPressureSetPoint !!
+        val highTemperatureSP: Int = tagConfiguration.highTemperatureSetPoint !!
         val reading = tagConfiguration.tireReading
         var event = database?.getTyreDetectionEvent(tagConfiguration.macAddress!!)
 
@@ -239,7 +238,7 @@ class TreelTagScan(context: Context) {
         }
 
         alertData?.let {
-            handleAlert(alertData, tagConfiguration)
+            handleAlert(alertData)
         }
 
         if (reading.currentTemperature != OVR_RANGE && reading.currentTemperature > highTemperatureSP) {
@@ -252,7 +251,7 @@ class TreelTagScan(context: Context) {
                     HighTemperatureAlert(),
                     "${reading.currentTemperature} $DEGREE_CENTIGRADE"
                 ).apply {
-                    handleAlert(this, tagConfiguration)
+                    handleAlert(this)
                 }
                 event.lastHighTemperatureTimeStamp = getCurrentDateAndTime()
             } else {
@@ -321,7 +320,7 @@ class TreelTagScan(context: Context) {
         //return view?.getStringAlertMsg(tyrePositionAlias, alertMsg, alertValue)
     }
 
-    private fun handleAlert(receivedAlert: Alert, tagConfiguration: VehicleConfiguration) {
+    private fun handleAlert(receivedAlert: Alert) {
         if (receivedAlert.alertType == 3) {
             Timber.d("Saving new alert ${receivedAlert.macAddress} : ${receivedAlert.alertType} : ${Utility.getCurrentDateAndTimeAdding1Sec()}")
             receivedAlert.timeStamp = Utility.getCurrentDateAndTimeAdding1Sec()
@@ -333,11 +332,11 @@ class TreelTagScan(context: Context) {
         //receivedAlert.alertMsg = receivedAlert.alertMsg
 
         val alertNotification = getAlertNotification(receivedAlert)
-        eventCallbackListener?.showAlertNotification(alertNotification!!)
+        eventCallbackListener?.showAlertNotification(alertNotification)
 
     }
 
-    private fun getAlertNotification(alert: Alert): AlertNotification? {
+    private fun getAlertNotification(alert: Alert): AlertNotification {
         //Generating unique notification id which will be used to display notification for each tyre's different types of
         //notifications. Existing notification for the same tires same type of alert will be replaced with the new notification.
         return AlertNotification(alert)
@@ -359,8 +358,8 @@ class TreelTagScan(context: Context) {
         return "Vehicle Configuration updated successfully"
     }
 
-    fun fetchLatestTpmsData(vinNumber: String): List<TpmsDetectionData>? {
-        val tpmsDetectionDatas: ArrayList<TpmsDetectionData> = ArrayList<TpmsDetectionData>()
+    fun fetchLatestTpmsData(vinNumber: String): List<TpmsDetectionData> {
+        val tpmsDetectionDatas: ArrayList<TpmsDetectionData> = ArrayList()
         val tyreDetectionEvents = database?.tyreDetectionEventsByVinNumber(vinNumber)
         tyreDetectionEvents?.let {
             for (tyreDetectionEvent in it) {
@@ -386,11 +385,11 @@ class TreelTagScan(context: Context) {
                 tpmsDetectionDatas.add(tpmsDetectionData)
             }
         }
-        return tpmsDetectionDatas.toList() ?: emptyList()
+        return tpmsDetectionDatas.toList()
     }
 
-    fun fetchLatestTpmsData(vinNumber: Array<String>): List<TpmsDetectionData>? {
-        val tpmsDetectionDatas: ArrayList<TpmsDetectionData> = ArrayList<TpmsDetectionData>()
+    fun fetchLatestTpmsData(vinNumber: Array<String>): List<TpmsDetectionData> {
+        val tpmsDetectionDatas: ArrayList<TpmsDetectionData> = ArrayList()
         val tyreDetectionEvents = database?.tyreDetectionEventsByVinNumber(vinNumber)
         tyreDetectionEvents?.let {
             for (tyreDetectionEvent in it) {
@@ -416,7 +415,7 @@ class TreelTagScan(context: Context) {
                 tpmsDetectionDatas.add(tpmsDetectionData)
             }
         }
-        return tpmsDetectionDatas.toList() ?: emptyList()
+        return tpmsDetectionDatas.toList()
     }
 
     /**
@@ -432,7 +431,7 @@ class TreelTagScan(context: Context) {
                      * When bluetooth hardware is ready, start scanning
                      */
                     RxBleClient.State.READY -> {
-                        context?.let { it1 -> startScan(it1) }
+                        context?.let { it1 -> startBleScanning(it1) }
 
                     }
 

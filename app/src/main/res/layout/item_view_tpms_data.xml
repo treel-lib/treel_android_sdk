@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <TableLayout
+        android:layout_width="match_parent"
+        android:id="@+id/layoutHeader"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+        <!--   Table Heading-->
+
+
+        <TableRow >
+            <TextView
+                android:id="@+id/textViewVinNumber"
+                android:layout_width=".35dp"
+                android:layout_height="50dp"
+                android:text="-"
+
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_weight="9" 
+                android:background="@drawable/bg_border_table"
+                android:layout_gravity="center_horizontal"
+                />
+            <TextView
+                android:id="@+id/textViewTyrePosition"
+                android:layout_width=".20dp"
+                android:layout_height="50dp"
+                android:text="-"
+                android:textColor="@color/black"
+
+                android:textSize="14sp"
+                android:layout_weight="6"
+                android:gravity="center"
+                android:background="@drawable/bg_border_table" />
+            <TextView
+                android:id="@+id/textViewPressure"
+                android:layout_width=".20dp"
+                android:layout_height="50dp"
+                android:text="-"
+                android:textColor="@color/black"
+
+                android:textSize="14sp"
+                android:layout_weight="6"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_border_table" />
+
+            <TextView
+                android:id="@+id/textViewTemperature"
+                android:layout_width=".20dp"
+                android:layout_height="50dp"
+                android:text="-"
+                android:textColor="@color/black"
+
+                android:textSize="14sp"
+                android:layout_weight="6"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_border_table" />
+
+            <TextView
+                android:id="@+id/textViewBattery"
+                android:layout_width=".20dp"
+                android:layout_height="50dp"
+                android:text="-"
+                android:textColor="@color/black"
+
+                android:textSize="14sp"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_border_table" />
+
+            <TextView
+                android:id="@+id/textViewTimeStamp"
+                android:layout_width=".20dp"
+                android:layout_height="50dp"
+                android:text="-"
+                android:textColor="@color/black"
+
+                android:textSize="14sp"
+                android:layout_weight="7"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_border_table" />
+
+        </TableRow>
+    </TableLayout>
+</RelativeLayout>

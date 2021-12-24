@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">AndroidSdkDemo</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="no_connectivity">Failed!! Please check your internet connection</string>
+    <string name="bluetooth_permission_title">Bluetooth Permission</string>
+
+    <!--Bluetooth Permission-->
+    <string name="bluetooth_not_supported">Bluetooth is not supported in device.</string>
+    <string name="bluetooth_enable_request">Please turn on bluetooth.</string>
+    <string name="bluetooth_enabled">Bluetooth enabled.</string>
+    <string name="bluetooth_required_to_use_app">Bluetooth is required to use this application.</string>
+    <string name="bluetooth_enabled_failed">Bluetooth not enabled. Please try again.</string>
+    <string name="enable">ENABLE</string>
+    <string name="location_service_required">Location services needs to be enabled on Android 6.0</string>
+
+    <!--Location Service Permission-->
+    <string name="location_enabled">Locations service enabled.</string>
+    <string name="location_enabled_failed">Location service not enabled. Please try again.</string>
+    <string name="location_permission_title">Location Service</string>
+    <string name="location_enable_request">Please enable location service.</string>
+    <string name="allow">ALLOW</string>
+
+    <string name="permission_required">Permission required</string>
+
+    <string name="location_runtime_permission_required">"Since Android 6.0 Marshmallow location permission is required in order to scan Bluetooth low energy devices."</string>
+    <string name="location_runtime_permission_required_android_q">Since Android 10 (Q) Background location permission is required in order to scan/Monitoring Bluetooth low energy devices.</string>
+    <string name="location_allow_settings">Allow app to access Location Service with `Allow all the time [Recommended] option to get the pressure updates. </string>
+    <string name="change_app_settings">You can change this later in the settings</string>
+    <string name="storage_runtime_permission_required">"Storage permission is required."</string>
+    <string name="camera_runtime_permission_required">"Camera permission is required in order to scan QR code."</string>
+    <string name="location_permission_denied" type="id">Location permission denied.</string>
+    <string name="label_warning">Warning</string>
+    <string name="action_ok">Ok</string>
+    <string name="action_cancel">Cancel</string>
+</resources>

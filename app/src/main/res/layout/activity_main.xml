@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/coordinatorLayout"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.AndroidSdkDemo.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/Theme.AndroidSdkDemo.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+  <!--  <include layout="@layout/content_main" />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="?attr/actionBarSize">
+
+    <Button
+        android:id="@+id/buttonSyncConfig"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Sync Config "
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:background="@color/cardview_light_background" />
+    <Button
+        android:id="@+id/buttonFetchTpmsData"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Fetch TPMS Data"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:background="@color/cardview_light_background" />
+
+        <Button
+            android:id="@+id/buttonFetchAllVinNumberTpmsData"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Fetch All VIN TPMS"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:background="@color/cardview_light_background" />
+        <TextView
+            android:id="@+id/textViewMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="20dp"
+            android:textSize="14dp"
+            android:textColor="@color/black"
+            android:text=""/>
+        <include
+            android:id="@+id/layoutTpmsData"
+            android:visibility="visible"
+            layout="@layout/content_tpms_data"/>
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

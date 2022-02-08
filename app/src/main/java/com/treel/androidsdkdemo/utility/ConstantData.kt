@@ -8,7 +8,7 @@ object ConstantData {
         val vehicleConfigurations: ArrayList<VehicleConfiguration> = ArrayList()
         val vehicleConfiguration = VehicleConfiguration()
         vehicleConfiguration.vinNumber = "VINNUMBER1"
-        vehicleConfiguration.macAddress = "E12E4EAA21C3"
+        vehicleConfiguration.macAddress = "C41D09405E98"
         vehicleConfiguration.tyrePosition = "1A"
         vehicleConfiguration.recommendedPressureSetPoint = 30
         vehicleConfiguration.lowPressureSetPoint  = 25
@@ -18,7 +18,7 @@ object ConstantData {
 
         val vehicleConfiguration1 = VehicleConfiguration()
         vehicleConfiguration1.vinNumber = "VINNUMBER1"
-        vehicleConfiguration1.macAddress = "FCD9E9CCE895"
+        vehicleConfiguration1.macAddress = "F321F4A8DEDF"
         vehicleConfiguration1.tyrePosition = "2A"
         vehicleConfiguration1.recommendedPressureSetPoint = 29
         vehicleConfiguration1.lowPressureSetPoint  = 25
@@ -28,7 +28,7 @@ object ConstantData {
 
         val vehicleConfiguration3 = VehicleConfiguration()
         vehicleConfiguration3.vinNumber = "VINNUMBER2"
-        vehicleConfiguration3.macAddress = "FB4F2BD0D397"
+        vehicleConfiguration3.macAddress = "C4F2B6BED4DA"
         vehicleConfiguration3.tyrePosition = "1A"
         vehicleConfiguration3.recommendedPressureSetPoint = 31
         vehicleConfiguration3.lowPressureSetPoint  = 25

@@ -1,6 +1,7 @@
 package com.treel.androidsdk
 
 import android.content.Context
+import android.util.Log
 import com.logicare.treel.ui.viewVehicle.ble.VehicleReadingParser
 import com.polidea.rxandroidble2.RxBleClient
 import com.polidea.rxandroidble2.exceptions.BleScanException
@@ -96,7 +97,8 @@ class TreelTagScan(context: Context) {
     }
 
     private fun handleScanResponse(scanResult: ScanResult) {
-        Timber.d("Sensor Detected: " + scanResult.bleDevice.macAddress)
+        //Timber.d("Sensor Detected: " + scanResult.bleDevice.macAddress)
+        Log.d("Sensor Detected: " , scanResult.bleDevice.macAddress)
         val beacon = ConversionUtils.getTreelBeacon(scanResult.scanRecord.bytes)
         when {
             beacon != null -> {

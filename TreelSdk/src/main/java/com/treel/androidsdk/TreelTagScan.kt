@@ -98,7 +98,7 @@ class TreelTagScan(context: Context) {
 
     private fun handleScanResponse(scanResult: ScanResult) {
         //Timber.d("Sensor Detected: " + scanResult.bleDevice.macAddress)
-        Log.d("Sensor Detected: " , scanResult.bleDevice.macAddress)
+        Log.d("TREELBLE" , "Sensor Detected: ${scanResult.bleDevice.macAddress}")
         val beacon = ConversionUtils.getTreelBeacon(scanResult.scanRecord.bytes)
         when {
             beacon != null -> {
@@ -136,7 +136,7 @@ class TreelTagScan(context: Context) {
                 }
             }
             BluetoothUUID.isTreelBleDevice(scanResult.scanRecord) -> getTagConfiguration(scanResult.bleDevice.macAddress)?.let {
-                Timber.d("BLE Mac ID: ${it.macAddress}")
+                Log.d("TREELBLE","BLE Mac ID ${it.macAddress}")
                 //it.restartTimeoutTimer()
 
                 val reading = parseResponse(scanResult)
@@ -176,7 +176,7 @@ class TreelTagScan(context: Context) {
         /*tagConfiguration.highPressure = configuration.highPressure
         tagConfiguration.lowPressure = configuration.lowPressure
         tagConfiguration.highTemperature = configuration.highTemperature*/
-
+        Log.d("TREELBLE","Check For Alerts Called")
         val lowPressureSP: Int = tagConfiguration.lowPressureSetPoint !!
         val highPressureSP: Int = tagConfiguration.highPressureSetPoint !!
         val highTemperatureSP: Int = tagConfiguration.highTemperatureSetPoint !!
@@ -261,7 +261,7 @@ class TreelTagScan(context: Context) {
             }
         }
         database?.saveTyreDetectionEvent(event)
-
+        Log.d("TREELBLE","Called Save Tyre Detection ${reading.currentPressure}")
         val tpmsDetectionData = TpmsDetectionData()
         tpmsDetectionData.vinNumber = event.vinNumber
         tpmsDetectionData.macAddress = event.macAddress
@@ -271,6 +271,7 @@ class TreelTagScan(context: Context) {
         tpmsDetectionData.battery = reading.battery
         tpmsDetectionData.timeStamp = event.timeStamp
         database?.saveTpmsDataHistory(tpmsDetectionData)
+        Log.d("TREELBLE","On Saved the History ${reading.currentPressure}")
     }
 
     private fun getAlertData(
